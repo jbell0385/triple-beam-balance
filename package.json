@@ -1,11 +1,17 @@
 {
   "name": "triple-beam-balance",
-  "version": "1.0.0",
-  "description": "triple-beam-balance interactive",
-  "main": "app.js",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www"
   },
-  "author": "Jeremy Bell",
-  "license": "ISC"
+  "dependencies": {
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "ejs": "~2.5.7",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "morgan": "~1.9.0",
+    "node-sass-middleware": "0.11.0"
+  }
 }

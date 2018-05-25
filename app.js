@@ -1,55 +1,48 @@
-var canvas;
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+var sassMiddleware = require('node-sass-middleware');
 
-var beamBg;
-var rider01;
-var rider02;
-var rider03;
-var rider01X = 32;
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
 
-// var mx = mouseX;
-// var my = mouseY;
+var app = express();
 
-function preload(){
-    beamBg=loadImage('/images/beam-bg.png');
-    rider01 = loadImage('/images/rider01.png');
-}
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
-function setup(){
-    canvas = createCanvas(558,271);
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(sassMiddleware({
+  src: path.join(__dirname, 'public'),
+  dest: path.join(__dirname, 'public'),
+  indentedSyntax: true, // true = .sass and false = .scss
+  sourceMap: true
+}));
+app.use(express.static(path.join(__dirname, 'public')));
 
-}
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
 
-function draw(){
-    background(255);
-    image(beamBg,0,0);
-    image(rider01,rider01X,14);
-    //console.log(canvas.position());
-    // console.log(rider01);
-    // triangleArr.forEach((triangleEll)=>{
-    //     triangle(triangleEll.x1, triangleEll.y1, triangleEll.x2, triangleEll.y2, triangleEll.x3, triangleEll.y3);
-    // })
-    
-}
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
 
-function mouseDragged(){
-    rider01X = mouseX - 40;
-    image(rider01, rider01X, 14);
-    // triangleArr = [];
-    // triangle01 = {
-    //     x1 : mouseX - 9,
-    //     y1 : 27,
-    //     x2 : mouseX + 9,
-    //     y2 : 27,
-    //     x3 : mouseX,
-    //     y3 : 45
-    // }
-    
-    // triangleArr.push(triangle01);
-}
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-function checkClick (rider){
-    // if(
-    //     mx <= rider.x
-    // ){}
-    
-}
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
+module.exports = app;
