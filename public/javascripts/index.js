@@ -8,6 +8,10 @@ var rider03;
 var riderArr = [];
 var rider01Obj = {};
 var rider02Obj = {};
+var rider03Obj = {};
+
+var rider03Mod;
+var rider03Num;
 
 var snapDistance = 30;
 var dist0 = 81;
@@ -25,6 +29,7 @@ function preload() {
     beamBg = loadImage('/images/beam-bg.png');
     rider01 = loadImage('/images/rider01.png');
     rider02 = loadImage('/images/rider02.png');
+    rider03 = loadImage('/images/rider03.png');
 }
 
 function setup() {
@@ -49,6 +54,18 @@ function setup() {
         value: 0
     }
 
+    rider03Obj = {
+        X: 32,
+        Y: 192,
+        W: rider03.width,
+        H: rider03.height,
+        El: rider03,
+        multiplier:0.1,
+        value: 0,
+        mod:5,
+        num:0
+    }
+
     riderArr.push(rider01Obj);
     riderArr.push(rider02Obj);
 
@@ -60,6 +77,7 @@ function draw() {
     image(beamBg, 0, 0);
     image(rider01Obj.El, rider01Obj.X, rider01Obj.Y);
     image(rider02Obj.El, rider02Obj.X, rider02Obj.Y);
+    image(rider03Obj.El, rider03Obj.X, rider03Obj.Y);
 
 }
 
@@ -82,10 +100,23 @@ function mouseDragged() {
         }
     })
 
+    // Rider 3 unique case
+    if (
+        mouseX >= rider03Obj.X &&
+        mouseX <= rider03Obj.X + rider03Obj.W &&
+        mouseY >= rider03Obj.Y &&
+        mouseY <= rider03Obj.Y + rider03Obj.H
+    ) {
+        if (rider03Obj.X < 32 || mouseX - rider03Obj.W / 2 < 32) {
+            rider03Obj.X = 32;
+        } else if (rider03Obj.X + rider03Obj.W > 526 || mouseX + rider03Obj.W / 2 > 526) {
+            rider03Obj.X = 526 - rider03Obj.W;
+        } else {
+            rider03Obj.X = mouseX - rider03Obj.W / 2;
+        }
+    }
 
     
-
-    //rider02Obj.X = mouseX;
 }
 
 function mouseReleased() {
@@ -121,13 +152,30 @@ function mouseReleased() {
             riderObj.value = 4*riderObj.multiplier;
         }
     })
+
+    
+    rider03Obj.mod = ((rider03Obj.X + rider03Obj.W/2) - 80.25) % 9.9;
+    rider03Obj.num = Math.round(((rider03Obj.X + rider03Obj.W/2)-80.25)/9.9);
+    console.log(rider03Obj.mod);
+    console.log(rider03Obj.num);
+    if(rider03Obj.mod<=5){
+        rider03Obj.X = (80.25 + rider03Obj.num*9.9) -(rider03Obj.W/2);
+        rider03Obj.value = rider03Obj.num*rider03Obj.multiplier;
+        //rider03Obj.mod = 0.5;
+    }
+
+    if(rider03Obj.mod>5){
+        rider03Obj.X = (80.25 + rider03Obj.num*9.9)-(rider03Obj.W/2);
+        rider03Obj.value = (rider03Obj.num) * rider03Obj.multiplier;
+        //rider03Obj.mod = 0.5;
+    }
     
 
-    calcTotal(rider01Obj.value, rider02Obj.value)
+    calcTotal(rider01Obj.value, rider02Obj.value, rider03Obj.value)
 }
 
-function calcTotal(rider01, rider02) {
-    weightValue.innerHTML = rider01+rider02;
+function calcTotal(rider01, rider02, rider03) {
+    weightValue.innerHTML = rider01+rider02+rider03;
 
 }
 
