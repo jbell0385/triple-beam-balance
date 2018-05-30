@@ -22,8 +22,10 @@ var dist400 = 477;
 
 var weightValue = document.querySelector("#weightValue");
 
-// var mx = mouseX;
-// var my = mouseY;
+var overlayEl = document.querySelector(".overlay");
+overlayEl.addEventListener("click",()=>{
+    overlayEl.style.display = "none";
+})
 
 function preload() {
     beamBg = loadImage('/images/beam-bg.png');
@@ -34,6 +36,7 @@ function preload() {
 
 function setup() {
     canvas = createCanvas(558, 271);
+    canvas.parent('canvas-container');
     rider01Obj = {
         X: 32,
         Y: 14,
@@ -156,18 +159,14 @@ function mouseReleased() {
     
     rider03Obj.mod = ((rider03Obj.X + rider03Obj.W/2) - 80.25) % 9.9;
     rider03Obj.num = Math.round(((rider03Obj.X + rider03Obj.W/2)-80.25)/9.9);
-    console.log(rider03Obj.mod);
-    console.log(rider03Obj.num);
     if(rider03Obj.mod<=5){
         rider03Obj.X = (80.25 + rider03Obj.num*9.9) -(rider03Obj.W/2);
         rider03Obj.value = rider03Obj.num*rider03Obj.multiplier;
-        //rider03Obj.mod = 0.5;
     }
 
     if(rider03Obj.mod>5){
         rider03Obj.X = (80.25 + rider03Obj.num*9.9)-(rider03Obj.W/2);
         rider03Obj.value = (rider03Obj.num) * rider03Obj.multiplier;
-        //rider03Obj.mod = 0.5;
     }
     
 
@@ -175,7 +174,8 @@ function mouseReleased() {
 }
 
 function calcTotal(rider01, rider02, rider03) {
-    weightValue.innerHTML = rider01+rider02+rider03;
+    //Sets the weight value on the DOM
+    weightValue.innerHTML = rider01+rider02+rider03+" g";
 
 }
 
