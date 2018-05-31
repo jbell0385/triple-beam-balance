@@ -23,7 +23,7 @@ var dist400 = 477;
 var weightValue = document.querySelector("#weightValue");
 
 var overlayEl = document.querySelector(".overlay");
-overlayEl.addEventListener("click",()=>{
+overlayEl.addEventListener("click", () => {
     overlayEl.style.display = "none";
 })
 
@@ -43,7 +43,7 @@ function setup() {
         W: rider01.width,
         H: rider01.height,
         El: rider01,
-        multiplier:100,
+        multiplier: 100,
         value: 0
     }
 
@@ -53,7 +53,7 @@ function setup() {
         W: rider02.width,
         H: rider02.height,
         El: rider02,
-        multiplier:10,
+        multiplier: 10,
         value: 0
     }
 
@@ -63,10 +63,10 @@ function setup() {
         W: rider03.width,
         H: rider03.height,
         El: rider03,
-        multiplier:0.1,
+        multiplier: 0.1,
         value: 0,
-        mod:5,
-        num:0
+        mod: 5,
+        num: 0
     }
 
     riderArr.push(rider01Obj);
@@ -86,7 +86,7 @@ function draw() {
 
 function mouseDragged() {
 
-    riderArr.forEach((riderObj)=>{
+    riderArr.forEach((riderObj) => {
         if (
             mouseX >= riderObj.X &&
             mouseX <= riderObj.X + riderObj.W &&
@@ -119,12 +119,12 @@ function mouseDragged() {
         }
     }
 
-    
+
 }
 
 function mouseReleased() {
 
-    riderArr.forEach((riderObj)=>{
+    riderArr.forEach((riderObj) => {
         // 0 (top) selection
         if (Math.abs((riderObj.X + riderObj.W / 2) - dist0) < snapDistance) {
             riderObj.X = dist0 - riderObj.W / 2;
@@ -134,48 +134,48 @@ function mouseReleased() {
         // 100 selection
         if (Math.abs((riderObj.X + riderObj.W / 2) - dist100) < snapDistance) {
             riderObj.X = dist100 - riderObj.W / 2;
-            riderObj.value = 1*riderObj.multiplier;
+            riderObj.value = 1 * riderObj.multiplier;
         }
 
         // 200 selection
         if (Math.abs((riderObj.X + riderObj.W / 2) - dist200) < snapDistance) {
             riderObj.X = dist200 - riderObj.W / 2;
-            riderObj.value = 2*riderObj.multiplier;
+            riderObj.value = 2 * riderObj.multiplier;
         }
 
         // 300 selection
         if (Math.abs((riderObj.X + riderObj.W / 2) - dist300) < snapDistance) {
             riderObj.X = dist300 - riderObj.W / 2;
-            riderObj.value = 3*riderObj.multiplier;
+            riderObj.value = 3 * riderObj.multiplier;
         }
 
         // 400 selection
         if (Math.abs((riderObj.X + riderObj.W / 2) - dist400) < snapDistance) {
             riderObj.X = dist400 - riderObj.W / 2;
-            riderObj.value = 4*riderObj.multiplier;
+            riderObj.value = 4 * riderObj.multiplier;
         }
     })
 
-    
-    rider03Obj.mod = ((rider03Obj.X + rider03Obj.W/2) - 80.25) % 9.9;
-    rider03Obj.num = Math.round(((rider03Obj.X + rider03Obj.W/2)-80.25)/9.9);
-    if(rider03Obj.mod<=5){
-        rider03Obj.X = (80.25 + rider03Obj.num*9.9) -(rider03Obj.W/2);
-        rider03Obj.value = rider03Obj.num*rider03Obj.multiplier;
+
+    rider03Obj.mod = ((rider03Obj.X + rider03Obj.W / 2) - 80.25) % 9.9;
+    rider03Obj.num = Math.round(((rider03Obj.X + rider03Obj.W / 2) - 80.25) / 9.9);
+    if (rider03Obj.mod <= 5) {
+        rider03Obj.X = (80.25 + rider03Obj.num * 9.9) - (rider03Obj.W / 2);
+        rider03Obj.value = rider03Obj.num * rider03Obj.multiplier;
     }
 
-    if(rider03Obj.mod>5){
-        rider03Obj.X = (80.25 + rider03Obj.num*9.9)-(rider03Obj.W/2);
+    if (rider03Obj.mod > 5) {
+        rider03Obj.X = (80.25 + rider03Obj.num * 9.9) - (rider03Obj.W / 2);
         rider03Obj.value = (rider03Obj.num) * rider03Obj.multiplier;
     }
-    
+
 
     calcTotal(rider01Obj.value, rider02Obj.value, rider03Obj.value)
 }
 
 function calcTotal(rider01, rider02, rider03) {
     //Sets the weight value on the DOM
-    weightValue.innerHTML = rider01+rider02+rider03+" g";
+    weightValue.innerHTML = rider01 + rider02 + rider03 + " g";
 
 }
 
