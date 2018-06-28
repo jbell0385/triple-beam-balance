@@ -21,7 +21,7 @@ router.get('/hello', (req,res)=>{
 
 router.post('/hello', function(req, res){
   var ltiBody = req.body;
-  var nonceHash = litBody.oauth_nonce;
+  var nonceHash = ltiBody.oauth_nonce;
   console.log(nonceHash);
   res.send(nonceHash);
 })
