@@ -21,9 +21,29 @@ router.get('/hello', (req,res)=>{
 
 router.post('/hello', function(req, res){
   var ltiBody = req.body;
-  var nonceHash = ltiBody.oauth_nonce;
-  console.log(nonceHash);
-  res.send(nonceHash);
+  
+  function checkNonce(){
+    var nonceHash = req.body.oauth_nonce;
+    console.log(nonceHash);
+    if(!nonceHash){
+      return false;
+    }else{
+      if(Nonce.find({nonceId:nonceHash})){
+        return false;
+      }else{
+        Nonce.create({nonceId:nonceHash})
+        return true;
+      }
+    }
+  }
+  
+  if(checkNonce()){
+    res.send('Good')
+  }else{
+    res.send("Bad")
+  }
+  
+
 })
 
 module.exports = router;
