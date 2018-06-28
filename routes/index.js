@@ -12,9 +12,10 @@ router.get('/hello', (req,res)=>{
 })
 
 router.post('/hello', function(req, res){
-  var p = req;
+  var p = req.body.launch_presentation_return_url;
   console.log(req);
-  res.redirect('/');
+  console.log(p);
+  res.send(JSON.stringify(req.body));
 })
 
 module.exports = router;
