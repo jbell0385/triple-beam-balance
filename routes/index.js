@@ -1,5 +1,13 @@
 var express = require('express');
 var router = express.Router();
+var mongoose=require("mongoose");
+
+var nonceSchema = new mongoose.Schema({
+    nonceId: String
+})
+
+var Nonce = mongoose.model("Nonce", nonceSchema);
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -12,10 +20,10 @@ router.get('/hello', (req,res)=>{
 })
 
 router.post('/hello', function(req, res){
-  var p = req.body.launch_presentation_return_url;
-  console.log(req);
-  console.log(p);
-  res.send(JSON.stringify(req.body));
+  var ltiBody = req.body;
+  var nonceHash = litBody.oauth_nonce;
+  console.log(nonceHash);
+  res.send(nonceHash);
 })
 
 module.exports = router;

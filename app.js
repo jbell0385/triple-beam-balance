@@ -1,5 +1,7 @@
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
+var mongoose = require("mongoose");
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -8,6 +10,8 @@ var bodyParser  = require("body-parser");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+
+mongoose.connect(`mongodb+srv://jbell0385:${process.env.MONGO_PASS}@cluster0-kt0it.mongodb.net/test?retryWrites=true`);
 
 var app = express();
 
