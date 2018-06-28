@@ -13,8 +13,8 @@ router.get('/hello', (req,res)=>{
 
 router.post('/hello', function(req, res){
   var p = req;
-  console.log(req.params);
-  res.send(JSON.stringify(req));
+  console.log(req);
+  res.send(JSON.stringify(req.body));
 })
 
 module.exports = router;
