@@ -7,12 +7,14 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/hello', (req,res)=>{
-  console.log(req.params);
+  // console.log(req.params);
   res.render('hello');
 })
 
 router.post('/hello', function(req, res){
-  res.send('hello world');
+  var p = req.params;
+  console.log(req.params);
+  res.send(p);
 })
 
 module.exports = router;
