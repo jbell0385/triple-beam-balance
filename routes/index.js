@@ -16,33 +16,35 @@ router.get('/', function(req, res, next) {
 
 router.get('/hello', (req,res)=>{
   // console.log(req.params);
+  Nonce.create({"nonceId":"alskdfj;alksdjf"},(err, newNonce)=>{
+    if(err){
+      console.log(err)
+    }else{
+      console.log(newNonce);
+    }
+  })
+  
   res.render('hello');
 })
 
 router.post('/hello', function(req, res){
   var ltiBody = req.body;
+  console.log('ltiBody: ', ltiBody);
+
+
   
-  function checkNonce(){
-    var nonceHash = req.body.oauth_nonce;
-    console.log(nonceHash);
-    if(!nonceHash){
-      return false;
+  
+  async function processLtiRequest(){
+    if(await checkNonce()){
+      console.log("processed")
+      res.send('Good')
     }else{
-      if(Nonce.find({nonceId:nonceHash})){
-        return false;
-      }else{
-        Nonce.create({nonceId:nonceHash})
-        return true;
-      }
+      console.log('processed')
+      res.send("Bad")
     }
   }
-  
-  if(checkNonce()){
-    res.send('Good')
-  }else{
-    res.send("Bad")
-  }
-  
+
+  processLtiRequest();
 
 })
 
